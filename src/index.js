@@ -3,33 +3,82 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 
 class Square extends React.Component {
-    constructor(props){
-        super(props); //JS class에서 하위 클래스의 생성자를 정의할 때 항상 super를 호출해야한다.
-        this.state = {
-            value: null,
-        };
-    }
-
+    // constructor(props) {
+    //     super(props); 
+    //     // JS class에서 하위 클래스의 생성자를 정의할 때 항상 super를 호출해야한다.
+    //     this.state = {
+    //         value: null,
+    //     };
+    // }
     render() {
         return (
-            <button className="square" onClick={() => {
-                this.setState({value: 'X'});
-            }}>
-                {this.state.value}
+            <button
+                className="square"
+                onClick={() => this.props.onClick()}
+            >
+                {this.props.value}
             </button>
         );
     }
 }
 
+// 함수 컴포넌트
+
+// function Square(props) {
+//     return (
+//         <button className='square' onclick={props.onClick}>
+//             {props.value}
+//         </button>
+//     );
+// }
+
 // props: 상위 컴포넌트가 하위 컴포넌트에게 전달하는 값
 // Board가 Square에 props를 전달한다.
+// state: 컴포넌트 내에서 렌더링에 영향을 주는 값
+
 class Board extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            squares: Array(9).fill(null),
+            xIsNext: true,
+        }
+    }
+
+    handleClick(i) {
+        const squares = this.state.squares.slice(); //array deep copy
+
+        if (calculateWinner(squares) || squares[i]){
+            return;
+        }
+        
+        squares[i] = this.state.xIsNext ? 'X' : 'O';
+        this.setState({
+            squares: squares,
+            xIsNext: !this.state.xIsNext,
+        });
+    }
+
     renderSquare(i) {
-        return <Square value={i}/>;
+        return (
+            <Square
+                value={this.state.squares[i]}
+                onClick={() => this.handleClick(i)} //click시 함수 호출
+            />
+        );
+        //state에 저장된 값을 Square 컴포넌트의 props로 전달
     }
 
     render() {
-        const status = 'Next player: X';
+        const winner = calculateWinner(this.state.squares);
+        let status;
+
+        if (winner){
+            status = 'Winner: ' + winner;
+        }
+        else{
+            status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+        }
 
         return (
             <div>
@@ -71,6 +120,25 @@ class Game extends React.Component {
 }
 
 // ========================================
+function calculateWinner(squares) {
+    const lines = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6],
+    ];
+    for (let i = 0; i < lines.length; i++) {
+        const [a, b, c] = lines[i];
+        if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+            return squares[a];
+        }
+    }
+    return null;
+}
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<Game />);
