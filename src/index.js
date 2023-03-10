@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import App from './App' // 컴포넌트
 
 class Square extends React.Component {
     // constructor(props) {
@@ -176,4 +177,4 @@ function calculateWinner(squares) {
 }
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<Game />);
+root.render(<App />);
