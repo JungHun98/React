@@ -95,3 +95,23 @@ class App extends Component {
 ```
 - `title`, `sub` : props
 - `{this.props.name}` - name props의 값을 나타내는 jsx문법
+
+## :star: state
+- props - 사용자가 컴포넌트를 사용하는 입장에서 중요함 
+- state - 구현자의 입장에서 props에 따라 내부에서 구현이 달라짐 
+- props와 state는 철저하게 분리되어야 한다.
+
+## :star: event
+- props, state의 값이 변경하면 그 state를 가지고 있는 component의 render함수가 다시 호출이된다.
+  - 해당 컴포넌트의 자식 컴포넌트들의 render도 다시 호출됨
+  - 웹 페이지가 다시 그려진다!
+- 컴포넌트는 자바스크립트와 이벤트 등록이 다른 방식임, 컴포넌트가 처음 렌더링 될 때 이벤트 리스너를 제공한다.
+## bind 함수
+- render 함수 내부에서 this는 컴포넌트를 가리킴
+- 이벤트 함수에서의 this는 undefine 
+- `function.bind(Obj)` : 함수 내부에서 this에 Obj를 부여하는 함수를 새롭게 만들어진다.
+
+## setState
+- 왜 컴포넌트 생성한 뒤 동적으로 State에 직접 접근하여 수정하면 안될까?
+  - 리액트가 값이 바뀌었는 지 모른다.
+  - 값이 바뀌었는 지 모르기 때문에 `render`함수가 호출되지 않는다. == 웹 페이지가 수정되지 않는다.
