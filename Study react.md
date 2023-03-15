@@ -115,3 +115,8 @@ class App extends Component {
 - 왜 컴포넌트 생성한 뒤 동적으로 State에 직접 접근하여 수정하면 안될까?
   - 리액트가 값이 바뀌었는 지 모른다.
   - 값이 바뀌었는 지 모르기 때문에 `render`함수가 호출되지 않는다. == 웹 페이지가 수정되지 않는다.
+
+## props vs state
+- props: read-only, component안에서 전달된 props는 변경 불가, 상위 컴포넌트에서 이벤트로 변경
+- state: `setState`로만 값을 변경
+- 공통점: `render`함수의 호출을 유발함, UI를 변경할 수 있다.
